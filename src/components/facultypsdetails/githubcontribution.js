@@ -5,14 +5,9 @@ const GitHubContributions = ({ student }) => {
   const [hoveredDay, setHoveredDay] = useState(null);
   const [heatmapData, setHeatmapData] = useState([]);
   const username = "poovarasansivan";
-  const token = "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";
+  const token = "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";
 
-  const githubusername = [
-    { rollno: "7376211CS239", username: "poovarasansivan" },
-    { rollno: "7376211CS169", username: "pjayaprakash3110" },
-    { rollno: "7376212IT146", username: "hariprasad-it21" },
-    { rollno: "7376212IT196", username: "nivetha-it21" },
-  ];
+ 
 
   const fetchCommitData = async () => {
     try {

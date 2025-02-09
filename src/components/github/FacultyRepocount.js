@@ -4,17 +4,16 @@ import { VscRepoForked } from "react-icons/vsc";
 import { BiTimeFive } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
-export default function RepoDetails() {
+export default function RepoDetails({username}) {
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const token = "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"; // use environment variable for production
   const reposPerPage = 6;
-  const gitusername = localStorage.getItem("github_username");
 
   useEffect(() => {
     const fetchGitHubRepos = async () => {
-      if (!gitusername) return;
+      if (!username) return;
 
       try {
         const headers = {
@@ -22,7 +21,7 @@ export default function RepoDetails() {
         };
 
         const userResponse = await fetch(
-          `https://api.github.com/users/${gitusername}`,
+          `https://api.github.com/users/${username}`,
           { headers }
         );
         if (!userResponse.ok) throw new Error("Failed to fetch user data");
@@ -52,7 +51,7 @@ export default function RepoDetails() {
     };
 
     fetchGitHubRepos();
-  }, [gitusername, token]);
+  }, [username, token]);
 
   function Pagination({ currentPage, totalPages, onPageChange }) {
     return (
@@ -113,7 +112,7 @@ export default function RepoDetails() {
           >
             <div className="text-[#6777EF] text-lg font-semibold cursor-pointer">
               <Link
-                to={`https://github.com/${gitusername}/${repo.name}`}
+                to={`https://github.com/${username}/${repo.name}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -6,9 +6,8 @@ import { FaGithub } from "react-icons/fa";
 export default function Gitcard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const username = "poovarasansivan";
-  const token = "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"; 
-
+  const token = "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"; 
+  const gitusername = localStorage.getItem("github_username");
   useEffect(() => {
     const fetchGitHubData = async () => {
       try {
@@ -16,7 +15,7 @@ export default function Gitcard() {
           Authorization: `Bearer ${token}`,
         };
 
-        const userResponse = await fetch(`https://api.github.com/users/${username}`, { headers });
+        const userResponse = await fetch(`https://api.github.com/users/${gitusername}`, { headers });
         if (!userResponse.ok) throw new Error("Failed to fetch user data");
         const userData = await userResponse.json();
 
@@ -47,7 +46,7 @@ export default function Gitcard() {
     };
 
     fetchGitHubData();
-  }, [username, token]);
+  }, [gitusername, token]);
 
   if (loading) return <div>Loading...</div>;
 

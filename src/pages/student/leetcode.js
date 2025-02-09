@@ -18,6 +18,7 @@ export default function Leetcode() {
     hardSolved: 0
   });
   const lcusername = localStorage.getItem("leetcode_username");
+
   useEffect(() => {
     const fetchLeetcodeData = async () => {
       try {
@@ -82,7 +83,7 @@ export default function Leetcode() {
         <Badgedata />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 mt-5 gap-6 mb-5">
-        <Leetcodechart />
+        <Leetcodechart data={statsData}/>
         <Categories />
       </div>
       <Submission />

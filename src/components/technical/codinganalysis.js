@@ -1,7 +1,7 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
-export default function Categorychart() {
+export default function Categorychart({data}) {
   const chartOptions = {
     chart: {
       type: "bar",
@@ -47,7 +47,7 @@ export default function Categorychart() {
   const chartSeries = [
     {
       name: "Problems",
-      data: [98, 91, 14],
+      data: [data.easySolved, data.mediumSolved, data.hardSolved],
     },
     {
       name: "Accuracy",

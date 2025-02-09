@@ -7,12 +7,13 @@ function ProblemsSolvedTable() {
   const [sortOrder, setSortOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
-
+  const lcusername = localStorage.getItem("leetcode_username");
+  
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await fetch(
-          "http://localhost:5000/skillStats/poovarasan12"
+          `http://localhost:5000/skillStats/${lcusername}`
         );
         const data = await response.json();
 

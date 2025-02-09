@@ -5,8 +5,8 @@ import ProfileImage from "../../assets/profileimage.png";
 export default function ProfileCard() {
   const [data, setData] = useState(null);
 
-  const username = "poovarasansivan";
-  const token = "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";
+  const gitusername = localStorage.getItem("github_username");
+  const token = "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";
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +15,7 @@ export default function ProfileCard() {
           Authorization: `Bearer ${token}`,
         };
         const response = await fetch(
-          `https://api.github.com/users/${username}`,
+          `https://api.github.com/users/${gitusername}`,
           { headers }
         );
         const userData = await response.json();
@@ -25,7 +25,7 @@ export default function ProfileCard() {
       }
     };
     fetchData();
-  }, [username, token]);
+  }, [gitusername, token]);
 
   console.log(data);
 
@@ -85,7 +85,7 @@ export default function ProfileCard() {
             </div>
             <div className="text-center">
               <p className="text-xl font-bold text-gray-600">
-                {data.collaborators}
+                {data.collaborator} 0
               </p>
               <p className="text-gray-500">Collaborators</p>
             </div>

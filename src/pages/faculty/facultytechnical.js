@@ -8,7 +8,7 @@ const LeetcodeChart = React.lazy(() =>import("../../components/facultypsdetails/
 const LeetcodeCategory = React.lazy(() =>import("../../components/facultypsdetails/individuallccategory"));
 const GitHubContributions = React.lazy(() =>import("../../components/facultypsdetails/githubcontribution"));
 const LeetcodeSubmissions = React.lazy(() =>import("../../components/facultypsdetails/leetcodesubmissions"));
-const Repositories = React.lazy(() =>import("../../components/github/repocount"));
+const Repositories = React.lazy(() =>import("../../components/github/FacultyRepocount"));
 
 export default function Facultytechnical() {
   const [selectedOption, setSelectedOption] = useState("");
@@ -16,7 +16,12 @@ export default function Facultytechnical() {
   const [loading, setLoading] = useState(true);
   const [leetcodeusername, SetLeetcodeusername] = useState([]);
   const [githubusername, SetGithubusername] = useState([]);
-
+  const [statsData, setStatsData] = useState({
+    solvedProblem: 0,
+    easySolved: 0,
+    mediumSolved: 0,
+    hardSolved: 0
+  });
   useEffect(() => {
     const fetchRollNumbers = async () => {
       try {
@@ -61,51 +66,49 @@ export default function Facultytechnical() {
     fecthusername();
   }, [selectedOption]);
 
-  const studentgitdata = [
-    { rollno: "7376211CS239", totalrepo: "10" },
-    { rollno: "7376211CS169", totalrepo: "10" },
-    { rollno: "7376212IT146", totalrepo: "10" },
-    { rollno: "7376212IT196", totalrepo: "10" },
-  ];
-  const studentlcdata = [
-    { rollno: "7376211CS239", totalproblem: "205", badge: "1", rank: "200" },
-    { rollno: "7376211CS169", totalproblem: "105", badge: "1", rank: "250" },
-    { rollno: "7376212IT146", totalproblem: "150", badge: "1", rank: "300" },
-    { rollno: "7376212IT196", totalproblem: "100", badge: "1", rank: "350" },
-  ];
+  useEffect(() => {
+    const fetchLeetcodeData = async () => {
+      if (!leetcodeusername) return;
+  
+      try {
+        const response = await fetch(`http://localhost:5000/userProfile/${leetcodeusername}`);
+        const data = await response.json();
+  
+        const stats = {
+          totalSolved: data.totalSolved,
+          ranking: data.ranking,
+          contributionPoint: data.contributionPoint
+        };
+      console.log(stats)
+        setStatsData(stats);
+      } catch (error) {
+        console.error("Error fetching Leetcode data:", error);
+      }
+    };
+  
+    fetchLeetcodeData();
+  }, [leetcodeusername]);
+  
+ console.log(statsData)
 
-
-  const studentStats = studentlcdata.find(
-    (data) => data.rollno === selectedOption
-  );
-  const studentgitStats = studentgitdata.find(
-    (data) => data.rollno === selectedOption
-  );
-
-  const stats = studentStats
-    ? [
+  const stats = [
         {
           label: "Total Problems",
-          value: studentStats.totalproblem,
+          value: statsData.totalSolved,
           icon: <SiSecurityscorecard size={24} />,
         },
         {
           label: "Leetcode Rank",
-          value: studentStats.rank,
+          value: statsData.ranking,
           icon: <PiRankingDuotone size={24} />,
         },
         {
-          label: "Badge Count",
-          value: studentStats.badge,
-          icon: <SiLevelsdotfyi size={24} />,
-        },
-        {
-          label: "Total Repo Count",
-          value: studentgitStats?.totalrepo || "N/A",
+          label: "Contribution Points",
+          value: statsData.contributionPoint,
           icon: <SiLevelsdotfyi size={24} />,
         },
       ]
-    : [];
+    
 
   return (
     <>
@@ -137,8 +140,8 @@ export default function Facultytechnical() {
         )}
       </div>
 
-      {studentStats ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-5">
+      {selectedOption ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
           {stats.map((stat, index) => (
             <div
               key={index}

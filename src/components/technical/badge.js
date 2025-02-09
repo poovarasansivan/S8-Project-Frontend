@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 
 export default function Badge() {
   const [badgeData, setBadgeData] = useState(null);
-
+  const lcusername = localStorage.getItem("leetcode_username");
+  
   useEffect(() => {
     const fetchBadgeData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/poovarasan12/badges"
+          `http://localhost:5000/${lcusername}/badges`
         );
         const data = await response.json();
         setBadgeData({

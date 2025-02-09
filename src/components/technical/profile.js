@@ -4,11 +4,12 @@ import ProfileImage from "../../assets/profileimage.png";
 
 export default function ProfileCard() {
   const [data, setData] = useState(null); 
-
+  const lcusername = localStorage.getItem("leetcode_username");
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/poovarasan12");
+        const response = await axios.get(`http://localhost:5000/${lcusername}`);
         setData(response.data); 
       } catch (error) {
         console.log("Failed to fetch data");

@@ -4,14 +4,14 @@ import { FaGithub } from 'react-icons/fa';
 const GitHubHeatmap = () => {
   const [hoveredDay, setHoveredDay] = useState(null);
   const [heatmapData, setHeatmapData] = useState([]);
-  const username = "poovarasansivan";
-  const token = "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";
+  const gitusername = localStorage.getItem("github_username");
+  const token = "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";
 
   const fetchCommitData = async () => {
     const headers = {
         Authorization: `Bearer ${token}`,
       };
-    const response = await fetch(`https://api.github.com/users/${username}/events`,{headers});
+    const response = await fetch(`https://api.github.com/users/${gitusername}/events`,{headers});
     const data = await response.json();
 
     const processedData = processCommitData(data);
@@ -38,7 +38,7 @@ const GitHubHeatmap = () => {
 
   useEffect(() => {
     fetchCommitData();
-  }, [username,token]);
+  }, [gitusername,token]);
 
   const getColor = (count) => {
     if (count === 0) return 'bg-gray-100';
